@@ -57,43 +57,13 @@ class Day(object):
         self.op = DAY_OPS[self.op_name]
 
     #@property
-    def set_value(self,value):
+    def set_value_and_description(self,value,description):
         self.value=value
         self.result = self.op(value)
-
-    #@property
-    def set_description(self,description):
-        self.description=description
+        self.description=description+' {}'.format(self.result)
 
     def __repr__(self):
-        return "{"+"'day' : {0}, 'description' : {1} {2}, '{3}' : {4}, 'value' : {5}".format(self.name, self.description, self.result, self.op_name, self.result, self.value) + "}"
-
-
-# day meta data
-TEST_DATA_1_HDR = ["mon","tue","some_column1","wed","thu","fri","description"]
-TEST_DATA_1_DROW = [1,5,"data",2,3,3,"first_desc"]
-
-TEST_DATA_2_HDR = ["mon-thu","fri","description","another_column2"]
-TEST_DATA_2_DROW = [2,3,"second_desc","some_data"]
-
-TEST_RESULTS_1 = [
-    {'day': 'mon', 'description': 'first_desc 1', 'square': 1, 'value': 1},
-    {'day': 'tue', 'description': 'first_desc 25', 'square': 25, 'value': 5},
-    {'day': 'wed', 'description': 'first_desc 4', 'square': 4, 'value': 2},
-    {'day': 'thu', 'description': 'first_desc 6', 'double': 6, 'value': 3},
-    {'day': 'fri', 'description': 'first_desc 6', 'double': 6, 'value': 3}
- ]
-
-
-TEST_OUTPUT_2 = [
-    {'day': 'mon', 'description': 'second_desc 4', 'square': 4, 'value': 2},
-    {'day': 'tue', 'description': 'second_desc 4', 'square': 4, 'value': 2},
-    {'day': 'wed', 'description': 'second_desc 4', 'square': 4, 'value': 2},
-    {'day': 'thu', 'description': 'second_desc 4', 'double': 4, 'value': 2},
-    {'day': 'fri', 'description': 'second_desc 6', 'double': 6, 'value': 3}
-]
-
-
+        return "{"+"'day' : {0}, 'description' : {1}, '{2}' : {3}, 'value' : {4}".format(self.name, self.description, self.op_name, self.result, self.value) + "}"
 
 def read_csv(filename):
 # read_csv(file_name)
@@ -104,7 +74,7 @@ def read_csv(filename):
     #headings = []
     data_rows = []
     lines=0
-    with open(filename,'r',encoding='utf-8') as csvfile:
+    with open(filename,'r') as csvfile:
         for line in csvfile:
             cols = line.rstrip().split(DELIMITER)
             if lines==0:
@@ -174,8 +144,7 @@ def get_daily_data(headings,data_row):
         #day_result_type=day_result_ops[day]
         #day_data["day"]=day
         day = Day(day)
-        day.set_value(val)
-        day.description=description
+        day.set_value_and_description(val, description)
 
         final.append(day)
 
@@ -183,12 +152,6 @@ def get_daily_data(headings,data_row):
     
     return final
 
-def tests():
-    test_res = get_daily_data(TEST_DATA_1_HDR, TEST_DATA_1_DROW)
-    assert(len(test_res) == len(TEST_RESULTS_1))
-    
-    print("All tests passed")
-    
 def standard_run():    
     filenames = ['1.csv','2.csv','3.csv']
 
@@ -201,16 +164,7 @@ def standard_run():
 
 
 def main():
-    if len(sys.argv)>1:
-        run_mode = sys.argv[1].lower().strip()
-        if run_mode == "test":
-            tests()
-            return
-
     standard_run()
-
-
-
 
 if __name__ == "__main__":
     main()
