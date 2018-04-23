@@ -27,7 +27,15 @@ TEST_RESULTS_2 = [
 class TestDailyData(unittest.TestCase):
 
 	def test_get_daily_data(self):
-		day_results = solution.get_daily_data(TEST_DATA_1_HDR, TEST_DATA_1_DROW)
+
+		self.check_daily_data(TEST_DATA_1_HDR,TEST_DATA_1_DROW,TEST_RESULTS_1)
+
+		self.check_daily_data(TEST_DATA_2_HDR,TEST_DATA_2_DROW,TEST_RESULTS_2)
+
+
+
+	def check_daily_data(self,test_data_header,test_data_data_row,test_results):
+		day_results = solution.get_daily_data(test_data_header, test_data_data_row)
 		self.assertEqual(len(day_results),5)
 		
 		# did we get five days data?
@@ -35,22 +43,34 @@ class TestDailyData(unittest.TestCase):
 		# 0=mon,...,4=fri
 		for dow in range(5):
 			# test results
-			day_test_d = TEST_RESULTS_1[dow]
-			
-			day_name=day_test_d['day']
-			day_desc = day_test_d['description']
-			day_opname = 'square' if dow<3 else 'double'
-			day_opvalue = day_test_d[day_opname]
+			day_test_d = test_results[dow]
+
+			test_day_name=day_test_d['day']
+			test_day_desc = day_test_d['description']
+			test_day_opname = 'square' if dow<3 else 'double'
+			test_day_value = day_test_d['value']
+			test_day_op_value = day_test_d[test_day_opname]
 			
 			# result from our function
 			day = day_results[dow]
 			
 			# assertions
 			# day name
-			self.assertEqual(day.name,day_name)
+			self.assertEqual(day.name,test_day_name)
 
 			# description
-			self.assertEqual(day.description, day_desc)
+			self.assertEqual(day.description, test_day_desc)
+
+			# value
+			self.assertEqual(day.value, test_day_value)
+			
+			# op name & value
+			self.assertEqual(day.op_name, test_day_opname)
+			self.assertEqual(day.op_value, test_day_op_value)
+
+
+
+
 
 if __name__ == "__main__":
     unittest.main()

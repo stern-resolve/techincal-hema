@@ -51,7 +51,7 @@ class Day(object):
     def __init__(self,day_name):
         self.name = day_name
         self.value=0
-        self.result=0
+        self.op_value=0
         self.description=""
         self.op_name, self.sort_key = DAY_META_DATA[self.name]
         self.op = DAY_OPS[self.op_name]
@@ -59,11 +59,11 @@ class Day(object):
     #@property
     def set_value_and_description(self,value,description):
         self.value=value
-        self.result = self.op(value)
-        self.description=description+' {}'.format(self.result)
+        self.op_value = self.op(value)
+        self.description=description+' {}'.format(self.op_value)
 
     def __repr__(self):
-        return "{"+"'day' : {0}, 'description' : {1}, '{2}' : {3}, 'value' : {4}".format(self.name, self.description, self.op_name, self.result, self.value) + "}"
+        return "{"+"'day' : {0}, 'description' : {1}, '{2}' : {3}, 'value' : {4}".format(self.name, self.description, self.op_name, self.op_value, self.value) + "}"
 
 def read_csv(filename):
 # read_csv(file_name)
