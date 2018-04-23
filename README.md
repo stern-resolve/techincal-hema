@@ -11,5 +11,6 @@ Running:
 From the installation folder, run:
 python3 solution.py
 
-Tests:
-run python3 solution.py TEST
+Unit Tests:
+From the installation folder, run:
+python3 test_solution.py
